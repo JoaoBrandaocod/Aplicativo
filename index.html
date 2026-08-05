@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>BusinessCalc</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+<header>
+
+    <h1>📊 BusinessCalc</h1>
+
+    <p>Calculadora para Matemática de Negócios</p>
+
+</header>
+
+<div class="container">
+
+    <aside class="menu">
+
+        <button onclick="mostrar('porcentagem')">
+            📈 Porcentagem
+        </button>
+
+        <button onclick="mostrar('lucro')">
+            💰 Lucro
+        </button>
+
+        <button onclick="mostrar('margem')">
+            📊 Margem
+        </button>
+
+        <button onclick="mostrar('estoque')">
+            📦 Estoque
+        </button>
+
+        <button onclick="mostrar('vendas')">
+            🛒 Vendas
+        </button>
+
+    </aside>
+
+    <main>
+
+        <section id="porcentagem" class="card">
+
+            <h2>Calculadora de Porcentagem</h2>
+
+            <label>Valor</label>
+
+            <input
+                type="number"
+                id="valor"
+                placeholder="Digite um valor">
+
+            <label>Porcentagem (%)</label>
+
+            <input
+                type="number"
+                id="porcentagemValor"
+                placeholder="Ex.: 15">
+
+            <button onclick="calcularPorcentagem()">
+                Calcular
+            </button>
+
+            <button onclick="limpar('porcentagem')">
+                Limpar
+            </button>
+
+            <div id="resultado-porcentagem" class="resultado">
+                Resultado aparecerá aqui.
+            </div>
+
+        </section>
+
+        <section id="lucro" class="card">
+
+            <h2>Calculadora de Lucro</h2>
+
+            <label>Receita total (R$)</label>
+
+            <input
+                type="number"
+                id="lucroReceita"
+                placeholder="Ex.: 5000">
+
+            <label>Custo total (R$)</label>
+
+            <input
+                type="number"
+                id="lucroCusto"
+                placeholder="Ex.: 3200">
+
+            <button onclick="calcularLucro()">
+                Calcular
+            </button>
+
+            <button onclick="limpar('lucro')">
+                Limpar
+            </button>
+
+            <div id="resultado-lucro" class="resultado">
+                Resultado aparecerá aqui.
+            </div>
+
+        </section>
+
+        <section id="margem" class="card">
+
+            <h2>Calculadora de Margem (Preço de Venda)</h2>
+
+            <label>Custo do produto (R$)</label>
+
+            <input
+                type="number"
+                id="margemCusto"
+                placeholder="Ex.: 50">
+
+            <label>Margem de lucro desejada (%)</label>
+
+            <input
+                type="number"
+                id="margemDesejada"
+                placeholder="Ex.: 30">
+
+            <button onclick="calcularMargem()">
+                Calcular
+            </button>
+
+            <button onclick="limpar('margem')">
+                Limpar
+            </button>
+
+            <div id="resultado-margem" class="resultado">
+                Resultado aparecerá aqui.
+            </div>
+
+        </section>
+
+        <section id="estoque" class="card">
+
+            <h2>Calculadora de Estoque</h2>
+
+            <label>Estoque atual (unidades)</label>
+
+            <input
+                type="number"
+                id="estoqueAtual"
+                placeholder="Ex.: 300">
+
+            <label>Vendas médias por dia (unidades)</label>
+
+            <input
+                type="number"
+                id="estoqueVendaDiaria"
+                placeholder="Ex.: 12">
+
+            <label>Cobertura desejada (dias)</label>
+
+            <input
+                type="number"
+                id="estoqueDiasCobertura"
+                placeholder="Ex.: 30">
+
+            <button onclick="calcularEstoque()">
+                Calcular
+            </button>
+
+            <button onclick="limpar('estoque')">
+                Limpar
+            </button>
+
+            <div id="resultado-estoque" class="resultado">
+                Resultado aparecerá aqui.
+            </div>
+
+        </section>
+
+        <section id="vendas" class="card">
+
+            <h2>Calculadora de Vendas</h2>
+
+            <label>Quantidade vendida (unidades)</label>
+
+            <input
+                type="number"
+                id="vendasQuantidade"
+                placeholder="Ex.: 100">
+
+            <label>Preço de venda unitário (R$)</label>
+
+            <input
+                type="number"
+                id="vendasPreco"
+                placeholder="Ex.: 45">
+
+            <label>Custo unitário (R$)</label>
+
+            <input
+                type="number"
+                id="vendasCusto"
+                placeholder="Ex.: 28">
+
+            <button onclick="calcularVendas()">
+                Calcular
+            </button>
+
+            <button onclick="limpar('vendas')">
+                Limpar
+            </button>
+
+            <div id="resultado-vendas" class="resultado">
+                Resultado aparecerá aqui.
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
