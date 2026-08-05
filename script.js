@@ -1,4 +1,17 @@
-function mostrar(id){
+// Formata número no padrão brasileiro (vírgula decimal, ponto de milhar)
+function fmt(numero, casas=2){
+
+return numero.toLocaleString("pt-BR",{
+
+minimumFractionDigits:casas,
+
+maximumFractionDigits:casas
+
+});
+
+}
+
+function mostrar(id, botao){
 
 const secoes=document.querySelectorAll(".card");
 
@@ -9,6 +22,28 @@ secao.style.display="none";
 });
 
 document.getElementById(id).style.display="block";
+
+const abas=document.querySelectorAll(".aba");
+
+abas.forEach(aba=>aba.classList.remove("ativa"));
+
+const abaAlvo=botao || document.querySelector(`.aba[data-target="${id}"]`);
+
+if(abaAlvo){
+
+abaAlvo.classList.add("ativa");
+
+}
+
+}
+
+function reiniciarAnimacao(el){
+
+el.classList.remove("com-passos");
+
+void el.offsetWidth;
+
+el.classList.add("com-passos");
 
 }
 
@@ -31,8 +66,6 @@ function mostrarPassos(idResultado, resultadoFinal, passos){
 const el=document.getElementById(idResultado);
 
 el.classList.remove("erro");
-
-el.classList.add("com-passos");
 
 let html=`<div class="resposta-final">${resultadoFinal}</div>`;
 
@@ -60,6 +93,8 @@ html+=`</div>`;
 
 el.innerHTML=html;
 
+reiniciarAnimacao(el);
+
 }
 
 // ---------- PORCENTAGEM ----------
@@ -82,12 +117,12 @@ let resultado=valor*porcentagem/100;
 
 mostrarPassos("resultado-porcentagem",
 
-`Resultado: R$ ${resultado.toFixed(2)}`,
+`Resultado: R$ ${fmt(resultado)}`,
 
 [
 {
 formula: "Resultado = Valor × Porcentagem ÷ 100",
-substituicao: `Resultado = ${valor} × ${porcentagem} ÷ 100 = ${resultado.toFixed(2)}`
+substituicao: `Resultado = ${fmt(valor)} × ${fmt(porcentagem)} ÷ 100 = ${fmt(resultado)}`
 }
 ]);
 
@@ -115,16 +150,16 @@ let margemLucro=(lucro/receita)*100;
 
 mostrarPassos("resultado-lucro",
 
-`Lucro: R$ ${lucro.toFixed(2)} (margem de ${margemLucro.toFixed(2)}%)`,
+`Lucro: R$ ${fmt(lucro)} (margem de ${fmt(margemLucro)}%)`,
 
 [
 {
 formula: "Lucro = Receita − Custo",
-substituicao: `Lucro = ${receita.toFixed(2)} − ${custo.toFixed(2)} = ${lucro.toFixed(2)}`
+substituicao: `Lucro = ${fmt(receita)} − ${fmt(custo)} = ${fmt(lucro)}`
 },
 {
 formula: "Margem de lucro (%) = (Lucro ÷ Receita) × 100",
-substituicao: `Margem = (${lucro.toFixed(2)} ÷ ${receita.toFixed(2)}) × 100 = ${margemLucro.toFixed(2)}%`
+substituicao: `Margem = (${fmt(lucro)} ÷ ${fmt(receita)}) × 100 = ${fmt(margemLucro)}%`
 }
 ]);
 
@@ -154,20 +189,20 @@ let markup=(lucroUnitario/custo)*100;
 
 mostrarPassos("resultado-margem",
 
-`Preço de venda: R$ ${precoVenda.toFixed(2)}`,
+`Preço de venda: R$ ${fmt(precoVenda)}`,
 
 [
 {
 formula: "Preço de Venda = Custo ÷ (1 − Margem ÷ 100)",
-substituicao: `Preço = ${custo.toFixed(2)} ÷ (1 − ${margem}/100) = ${custo.toFixed(2)} ÷ ${(1-margem/100).toFixed(2)} = ${precoVenda.toFixed(2)}`
+substituicao: `Preço = ${fmt(custo)} ÷ (1 − ${fmt(margem,0)}/100) = ${fmt(custo)} ÷ ${fmt(1-margem/100)} = ${fmt(precoVenda)}`
 },
 {
 formula: "Lucro por unidade = Preço de Venda − Custo",
-substituicao: `Lucro = ${precoVenda.toFixed(2)} − ${custo.toFixed(2)} = ${lucroUnitario.toFixed(2)}`
+substituicao: `Lucro = ${fmt(precoVenda)} − ${fmt(custo)} = ${fmt(lucroUnitario)}`
 },
 {
 formula: "Markup (%) = (Lucro por unidade ÷ Custo) × 100",
-substituicao: `Markup = (${lucroUnitario.toFixed(2)} ÷ ${custo.toFixed(2)}) × 100 = ${markup.toFixed(2)}%`
+substituicao: `Markup = (${fmt(lucroUnitario)} ÷ ${fmt(custo)}) × 100 = ${fmt(markup)}%`
 }
 ]);
 
@@ -210,15 +245,15 @@ mostrarPassos("resultado-estoque",
 [
 {
 formula: "Estoque Necessário = Venda Diária × Dias de Cobertura",
-substituicao: `Necessário = ${vendaDiaria} × ${diasCobertura} = ${estoqueNecessario.toFixed(1)}`
+substituicao: `Necessário = ${fmt(vendaDiaria,0)} × ${fmt(diasCobertura,0)} = ${fmt(estoqueNecessario,1)}`
 },
 {
 formula: "Diferença = Estoque Necessário − Estoque Atual",
-substituicao: `Diferença = ${estoqueNecessario.toFixed(1)} − ${estoqueAtual} = ${diferenca.toFixed(1)} → ${mensagemCompra}`
+substituicao: `Diferença = ${fmt(estoqueNecessario,1)} − ${fmt(estoqueAtual,0)} = ${fmt(diferenca,1)} → ${mensagemCompra}`
 },
 {
 formula: "Duração do Estoque Atual = Estoque Atual ÷ Venda Diária",
-substituicao: `Duração = ${estoqueAtual} ÷ ${vendaDiaria} = ${duracaoAtual.toFixed(1)} dias`
+substituicao: `Duração = ${fmt(estoqueAtual,0)} ÷ ${fmt(vendaDiaria,0)} = ${fmt(duracaoAtual,1)} dias`
 }
 ]);
 
@@ -252,24 +287,24 @@ let margemLucro=(lucroTotal/receitaTotal)*100;
 
 mostrarPassos("resultado-vendas",
 
-`Lucro total: R$ ${lucroTotal.toFixed(2)}`,
+`Lucro total: R$ ${fmt(lucroTotal)}`,
 
 [
 {
 formula: "Receita Total = Quantidade × Preço Unitário",
-substituicao: `Receita = ${quantidade} × ${preco.toFixed(2)} = ${receitaTotal.toFixed(2)}`
+substituicao: `Receita = ${fmt(quantidade,0)} × ${fmt(preco)} = ${fmt(receitaTotal)}`
 },
 {
 formula: "Custo Total = Quantidade × Custo Unitário",
-substituicao: `Custo = ${quantidade} × ${custo.toFixed(2)} = ${custoTotal.toFixed(2)}`
+substituicao: `Custo = ${fmt(quantidade,0)} × ${fmt(custo)} = ${fmt(custoTotal)}`
 },
 {
 formula: "Lucro Total = Receita Total − Custo Total",
-substituicao: `Lucro = ${receitaTotal.toFixed(2)} − ${custoTotal.toFixed(2)} = ${lucroTotal.toFixed(2)}`
+substituicao: `Lucro = ${fmt(receitaTotal)} − ${fmt(custoTotal)} = ${fmt(lucroTotal)}`
 },
 {
 formula: "Margem de Lucro (%) = (Lucro Total ÷ Receita Total) × 100",
-substituicao: `Margem = (${lucroTotal.toFixed(2)} ÷ ${receitaTotal.toFixed(2)}) × 100 = ${margemLucro.toFixed(2)}%`
+substituicao: `Margem = (${fmt(lucroTotal)} ÷ ${fmt(receitaTotal)}) × 100 = ${fmt(margemLucro)}%`
 }
 ]);
 
